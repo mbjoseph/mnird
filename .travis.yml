@@ -3,5 +3,10 @@
 language: R
 cache: packages
 
+before_install:
+  - sudo add-apt-repository ppa:opencpu/poppler -y
+  - sudo apt-get update -q
+  - sudo apt-get install libpoppler-cpp-dev
+
 after_success:
   - Rscript -e 'covr::codecov()'
