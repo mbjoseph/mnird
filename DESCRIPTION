@@ -1,0 +1,24 @@
+Package: mnird
+Title: Analysis utilities for NEON biodiversity instrumentation/ML
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Max",
+           family = "Joseph",
+           role = c("aut", "cre"),
+           email = "maxwell.b.joseph@colorado.edu",
+           comment = c(ORCID = "0000-0002-7745-9990"))
+Description: Gets and analyzes abstracts of papers using NEON data for 
+  biodiversity measurement with instrumentation and machine learning.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Suggests: 
+    testthat (>= 2.1.0),
+    covr
+Imports: 
+    bib2df,
+    fulltext,
+    tibble
+RoxygenNote: 6.1.1
+URL: https://github.com/mbjoseph/mnird
+BugReports: https://github.com/mbjoseph/mnird/issues
