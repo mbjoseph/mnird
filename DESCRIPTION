@@ -18,7 +18,14 @@ Suggests:
 Imports: 
     bib2df,
     fulltext,
-    tibble
+    tibble,
+    magrittr,
+    dplyr,
+    stringr,
+    tidyr,
+    tidytext,
+    rlang
 RoxygenNote: 6.1.1
 URL: https://github.com/mbjoseph/mnird
 BugReports: https://github.com/mbjoseph/mnird/issues
+Roxygen: list(markdown = TRUE)

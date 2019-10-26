@@ -15,14 +15,14 @@ get_abstracts <- function(bibfile) {
 
   # Suppress false positive warnings about Unknown or uninitialized columns
   suppressWarnings(
-    abstract_query <- fulltext::ft_abstract(dois,
-                                            from = "crossref")
+    abstract_query <- fulltext::ft_abstract(dois, from = "crossref",
+                                            verbose = FALSE)
     )
 
-  abstracts <- lapply(abstract_query$crossref, `[[`, 2)
+  abstracts <- lapply(abstract_query$crossref, `[[`, "abstract")
   clean_abstracts <- lapply(abstracts, function(x) {
     ifelse(is.null(x), NA, x)
   })
 
-  tibble::tibble(doi = dois, ab = unlist(clean_abstracts))
+  tibble::tibble(doi = dois, abstract = unlist(clean_abstracts))
 }

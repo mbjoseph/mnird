@@ -1,3 +1,4 @@
+
 @article{fricker_convolutional_2019,
 	title = {A {Convolutional} {Neural} {Network} {Classifier} {Identifies} {Tree} {Species} in {Mixed}-{Conifer} {Forest} from {Hyperspectral} {Imagery}},
 	volume = {11},
@@ -183,41 +184,83 @@
 	pages = {1--5}
 }
 
-@article{weinstein2019individual,
-  title={Individual tree-crown detection in RGB imagery using semi-supervised deep learning neural networks},
-  author={Weinstein, Ben G and Marconi, Sergio and Bohlman, Stephanie and Zare, Alina and White, Ethan},
-  journal={Remote Sensing},
-  volume={11},
-  number={11},
-  pages={1309},
-  year={2019},
-  publisher={Multidisciplinary Digital Publishing Institute}
+@article{diao_complex_2019,
+	title = {Complex network-based time series remote sensing model in monitoring the fall foliage transition date for peak coloration},
+	volume = {229},
+	issn = {00344257},
+	url = {https://linkinghub.elsevier.com/retrieve/pii/S0034425719301889},
+	doi = {10.1016/j.rse.2019.05.003},
+	language = {en},
+	urldate = {2019-10-16},
+	journal = {Remote Sensing of Environment},
+	author = {Diao, Chunyuan},
+	month = aug,
+	year = {2019},
+	pages = {179--192}
 }
 
-@article{weinstein2019geographic,
-  title={Geographic Generalization in Airborne RGB Deep Learning Tree Detection},
-  author={Weinstein, Ben G and Marconi, Sergio and Bohlman, Stephanie A and Zare, Alina and White, Ethan P},
-  journal={bioRxiv},
-  pages={790071},
-  year={2019},
-  publisher={Cold Spring Harbor Laboratory}
+@article{weinstein_individual_2019,
+	title = {Individual {Tree}-{Crown} {Detection} in {RGB} {Imagery} {Using} {Semi}-{Supervised} {Deep} {Learning} {Neural} {Networks}},
+	volume = {11},
+	issn = {2072-4292},
+	url = {https://www.mdpi.com/2072-4292/11/11/1309},
+	doi = {10.3390/rs11111309},
+	language = {en},
+	number = {11},
+	urldate = {2019-10-17},
+	journal = {Remote Sensing},
+	author = {Weinstein, Ben G. and Marconi, Sergio and Bohlman, Stephanie and Zare, Alina and White, Ethan},
+	month = jun,
+	year = {2019},
+	pages = {1309}
 }
 
-@article{marconi2019rethinking,
-  title={Rethinking the fundamental unit of ecological remote sensing: Estimating individual level plant traits at scale},
-  author={Marconi, Sergio and Graves, Sarah and Weinstein, Ben and Bohlman, Stephanie and White, Ethan},
-  journal={bioRxiv},
-  pages={556472},
-  year={2019},
-  publisher={Cold Spring Harbor Laboratory}
+@article{weinstein_geographic_2019,
+	title = {Geographic {Generalization} in {Airborne} {RGB} {Deep} {Learning} {Tree} {Detection}},
+	url = {http://biorxiv.org/lookup/doi/10.1101/790071},
+	doi = {10.1101/790071},
+	abstract = {Tree detection is a fundamental task in remote sensing for forestry and ecosystem ecology applications. While many individual tree segmentation algorithms have been proposed, the development and testing of these algorithms is typically site specific, with few methods evaluated against data from multiple forest types simultaneously. This makes it difficult to determine the generalization of proposed approaches, and limits tree detection at broad scales. Using data from the National Ecological Observatory Network we extend a recently developed semi-supervised deep learning algorithm to include data from a range of forest types, determine whether information from one forest can be used for tree detection in other forests, and explore the potential for building a universal tree detection algorithm. We find that the deep learning approach works well for overstory tree detection across forest conditions, outperforming conventional LIDAR-only methods in all forest types. Performance was best in open oak woodlands and worst in alpine forests. When models were fit to one forest type and used to predict another, performance generally decreased, with better performance when forests were more similar in structure. However, when models were pretrained on data from other sites and then fine-tuned using a small amount of hand-labeled data from the evaluation site, they performed similarly to local site models. Most importantly, a universal model fit to data from all sites simultaneously performed as well or better than individual models trained for each local site. This result suggests that RGB tree detection models that can be applied to a wide array of forest types at broad scales should be possible.},
+	urldate = {2019-10-17},
+	journal = {bioRxiv},
+	author = {Weinstein, Ben. G. and Marconi, Sergio and Bohlman, Stephanie A. and Zare, Alina and White, Ethan P.},
+	month = oct,
+	year = {2019}
 }
 
-@article{dalponte2019individual,
-  title={Individual tree crown delineation and tree species classification with hyperspectral and LiDAR data},
-  author={Dalponte, Michele and Frizzera, Lorenzo and Gianelle, Damiano},
-  journal={PeerJ},
-  volume={6},
-  pages={e6227},
-  year={2019},
-  publisher={PeerJ Inc.}
+@article{marconi_rethinking_2019,
+	title = {Rethinking the fundamental unit of ecological remote sensing: {Estimating} individual level plant traits at scale},
+	shorttitle = {Rethinking the fundamental unit of ecological remote sensing},
+	url = {http://biorxiv.org/lookup/doi/10.1101/556472},
+	doi = {10.1101/556472},
+	abstract = {Functional ecology has increasingly focused on describing ecological communities based on their traits (measurable features affecting individuals’ fitness and performance). Analyzing trait distributions within and among forests could significantly improve understanding of community composition and ecosystem function. Historically, data on trait distributions in ecosystems are generated by (1) collecting few leaves from a small number of trees, which suffers from limited sampling but produces information at the fundamental ecological unit (the individual); or (2) using remote sensing images to infer traits, producing information continuously across large regions, but as plots (containing multiple trees of different species) or pixels, not individuals. Remote sensing methods that identify individual trees and estimate their traits would provide the benefits of both approaches, producing continuous large-scale data linked to biological individuals. We used data from the National Ecological Observatory Network (NEON) to develop a method to scale up functional traits measured on 160 trees to the millions of trees within the spatial extent of two NEON sites. The pipeline consists of three stages: 1) image segmentation, to identify individual trees and estimate their structural traits; 2) ensemble of models to infer leaf mass area (LMA), nitrogen, carbon, and phosphorus content using hyperspectral signatures; and 3) making predictions for segmented crowns for the full remote sensing footprint at the NEON sites.,Nitrogen, LMA and phosphorus models R
+
+            values ranged from 0.50 to 0.75 on held out test data. The ensemble approach performed better than single partial least squares generalized linear regressions models. Models for carbon performed poorly compared to other traits (R
+
+            of 0.22). Crown segmentation produced the highest uncertainty in the pipeline, generally due to over-segmentation. Despite this, crown traits predictions performed significantly better than comparable 1m
+
+            pixel predictions, resulting in improvement of R
+
+            on test data of between 0.07 to 0.20 points.,We used the pipeline to produce individual level trait data for ∼5 million individual crowns, covering a total extent of ∼360 km
+
+            . This large data set allows testing ecological questions on landscapes scales, for example revealing leaf chemical traits were correlated with physical traits and environmental conditions including height and elevation.},
+	urldate = {2019-10-17},
+	journal = {bioRxiv},
+	author = {Marconi, Sergio and Graves, Sarah J. and Weinstein, Ben. G. and Bohlman, Stephanie and White, Ethan P.},
+	month = sep,
+	year = {2019}
+}
+
+@article{dalponte_individual_2019,
+	title = {Individual tree crown delineation and tree species classification with hyperspectral and {LiDAR} data},
+	volume = {6},
+	issn = {2167-8359},
+	url = {https://peerj.com/articles/6227},
+	doi = {10.7717/peerj.6227},
+	language = {en},
+	urldate = {2019-10-17},
+	journal = {PeerJ},
+	author = {Dalponte, Michele and Frizzera, Lorenzo and Gianelle, Damiano},
+	month = jan,
+	year = {2019},
+	pages = {e6227}
 }
