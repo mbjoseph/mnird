@@ -7,7 +7,7 @@
 #' @param abstracts A data.frame containing a column with DOIs, and another
 #' column with abstract text (as a character vector).
 #'
-#' @return An object of class `tm::DocumentTermMatrix`.
+#' @return An object of class `DocumentTermMatrix`.
 #'
 #' @export
 #' @md

@@ -13,8 +13,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Suggests: 
-    testthat (>= 2.1.0),
     covr,
+    testthat (>= 2.1.0),
+    tm,
     vcr
 Imports: 
     bib2df,
