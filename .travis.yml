@@ -11,8 +11,7 @@ before_install:
 addons:
   apt:
     packages:
-    - libcurl4-openssl-dev
-    - libgsl10-dev
+    - libgsl-dev
 
 after_success:
   - Rscript -e 'covr::codecov()'
