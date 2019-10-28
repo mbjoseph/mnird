@@ -51,7 +51,7 @@ path_to_bib <- system.file("extdata",
 A `.bib` file contains entries like: 
 
 ```{r comment='', echo = FALSE}
-cat(readLines(path_to_bib), sep = '\n')
+cat(readLines(path_to_bib, n = 17), sep = '\n')
 ```
 
 To get the abstracts for each entry: 
