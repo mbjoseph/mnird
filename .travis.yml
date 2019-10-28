@@ -8,5 +8,11 @@ before_install:
   - sudo apt-get update -q
   - sudo apt-get install libpoppler-cpp-dev
 
+addons:
+  apt:
+    packages:
+    - libcurl4-openssl-dev
+    - libgsl10-dev
+
 after_success:
   - Rscript -e 'covr::codecov()'
