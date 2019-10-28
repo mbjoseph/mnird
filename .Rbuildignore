@@ -4,3 +4,4 @@ scratch.R
 ^LICENSE\.md$
 ^\.travis\.yml$
 ^codecov\.yml$
+^README\.Rmd$

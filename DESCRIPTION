@@ -26,6 +26,8 @@ Imports:
     stringr,
     tidyr,
     tidytext,
+    topicmodels,
+    tidyverse,
     rlang
 RoxygenNote: 6.1.1
 URL: https://github.com/mbjoseph/mnird
