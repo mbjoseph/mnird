@@ -17,8 +17,6 @@ knitr::opts_chunk$set(
 
 (M)achine learning + (N)EON + (I)nstrumentation + literature (R)eview for + bio(D)iversity
 
-
-
 [![Build Status](https://travis-ci.com/mbjoseph/mnird.svg?branch=master)](https://travis-ci.com/mbjoseph/mnird)
 [![Codecov test coverage](https://codecov.io/gh/mbjoseph/mnird/branch/master/graph/badge.svg)](https://codecov.io/gh/mbjoseph/mnird?branch=master)
 
@@ -32,62 +30,4 @@ remotes::install_github("mbjoseph/mnird")
 
 ## Getting started
 
-### Get abstracts
-
-To pull abstracts for all papers in a `.bib` file:
-
-```{r, message=FALSE}
-library(mnird)
-library(topicmodels)
-library(tidyverse)
-library(tidytext)
-
-# you can replace this with a path to a local file
-path_to_bib <- system.file("extdata",
-                              "neon-biodiversity-instrumentation-ml.bib",
-                              package = "mnird")
-```
-
-A `.bib` file contains entries like: 
-
-```{r comment='', echo = FALSE}
-cat(readLines(path_to_bib, n = 17), sep = '\n')
-```
-
-To get the abstracts for each entry: 
-
-```{r}
-abstracts <- get_abstracts(path_to_bib)
-abstracts
-```
-
-### Perform Latent Dirichlet Allocation to identify topics
-
-First, you need a document-term matrix: 
-
-```{r}
-dt_mat <- get_document_terms(abstracts)
-```
-
-Then you can use `topicmodels::LDA` to perform LDA, and visualize the results. 
-Note that in this case, the topics are nearly identical, since many of the papers are on the same topic...
-
-```{r}
-lda <- LDA(dt_mat, k = 2, control = list(seed = 1234))
-
-lda_df <- tidy(lda, matrix = "beta")
-
-top_terms <- lda_df %>%
-  group_by(topic) %>%
-  top_n(10, beta) %>%
-  ungroup() %>%
-  arrange(topic, -beta)
-
-top_terms %>%
-  mutate(term = reorder_within(term, beta, topic)) %>%
-  ggplot(aes(term, beta, fill = factor(topic))) +
-  geom_col(show.legend = FALSE) +
-  facet_wrap(~ paste("Topic ", topic), scales = "free") +
-  coord_flip() +
-  scale_x_reordered()
-```
+To run the analysis, see the Vignette.

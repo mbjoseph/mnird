@@ -16,20 +16,26 @@ Suggests:
     covr,
     testthat (>= 2.1.0),
     tm,
-    vcr
+    knitr,
+    rmarkdown, 
+    ldatuning
 Imports: 
-    bib2df,
-    fulltext,
     tibble,
     magrittr,
     dplyr,
+    readr,
     stringr,
     tidyr,
     tidytext,
     topicmodels,
     tidyverse,
-    rlang
+    rlang, 
+    rwos,
+    SnowballC,
+    wosr
 RoxygenNote: 6.1.1
 URL: https://github.com/mbjoseph/mnird
 BugReports: https://github.com/mbjoseph/mnird/issues
 Roxygen: list(markdown = TRUE)
+Remotes: juba/rwos
+VignetteBuilder: knitr

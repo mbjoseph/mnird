@@ -1,0 +1,169 @@
+---
+title: "ML in biodiversity topic modeling"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ML in biodiversity topic modeling}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r main, eval = FALSE}
+library(readr)
+library(topicmodels)
+library(mnird)
+library(tidytext)
+library(ldatuning)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+# Generate search terms
+
+ml_terms <- c(
+  "random forest",
+  "regression tree",
+  "decision tree",
+  "gradient boosting",
+  "maximum entropy",
+  "machine learning",
+  "neural network",
+  "support vector machine",
+  "deep learning",
+  "computer vision",
+  "gaussian process",
+  "convolutional neural network",
+  "generative adversarial",
+  "supervised learning",
+  "unsupervised learning",
+  "deep feedforward",
+  "multilayer perceptron",
+  "autoencoder",
+  "representation learning",
+  "boltzmann machine",
+  "deep belief network"
+)
+
+ml_terms <- gsub(" ", "-", ml_terms)
+search_terms <- paste(ml_terms, "AND biodiversity")
+
+
+# Find the abstracts and clean them to prep for LDA
+abstracts <- get_abstracts(search_terms)
+c_abstracts <- clean_abstracts(abstracts)
+
+docterms <- get_document_terms(c_abstracts)
+
+
+# Find the optimal number of LDA topics
+result <- FindTopicsNumber(
+  docterms,
+  topics = 2^c(1:6),
+  metrics = "Deveaud2014",
+  control = list(seed = 1234),
+  mc.cores = 4L,
+  verbose = TRUE
+)
+FindTopicsNumber_plot(result)
+
+
+# Conduct the final LDA with the selected number of topics
+lda <- LDA(docterms, 
+           k = result$topics[which.max(result$Deveaud2014)], 
+           control = list(seed = 1234))
+lda_df <- tidy(lda, matrix = "beta")
+
+
+
+# Visualizations ----------------------------------------------------------
+
+# Visualizing the results of the search
+method_tally <- abstracts %>%
+  count(search_term) %>%
+  mutate(method = trimws(gsub("AND biodiversity", "", search_term)),
+         method = gsub("-", " ", method),
+         method = reorder(tools::toTitleCase(method), n))
+p1 <- method_tally %>%
+  ggplot(aes(n, method)) +
+  geom_point() +
+  geom_segment(aes(x = 0, xend = n, yend = method)) +
+  ylab("") +
+  xlab("Number of papers") +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_log10()
+p1
+ggsave("fig1.png", p1, width = 3.5, height = 2.5)
+
+# number of unique hits
+length(unique(abstracts$ut))
+
+
+# LDA visualizations
+
+top_terms <- lda_df %>%
+  group_by(topic) %>%
+  top_n(5, beta) %>%
+  ungroup() %>%
+  arrange(topic, -beta)
+
+
+document_lda_df <- tidy(lda, matrix = "gamma")
+
+doc_topic_df <- document_lda_df %>%
+  rename(ut = document) %>%
+  left_join(select(abstracts, ut, date, tot_cites)) %>%
+  mutate(year = year(date)) %>%
+  group_by(ut) %>%
+  filter(gamma == max(gamma)) %>%
+  ungroup %>%
+  count(topic)
+
+topic_wt_df <- document_lda_df %>%
+  group_by(topic) %>%
+  summarize(wt = sum(gamma))
+
+p2 <- top_terms %>%
+  mutate(fct_term = reorder_within(term, beta, topic),
+         facet_label = paste("Topic ", topic)) %>%
+  left_join(topic_wt_df) %>%
+  group_by(facet_label) %>%
+  mutate(beta_scaled = beta / sum(beta)) %>%
+  ggplot(aes(x = 0, y = fct_term)) +
+  geom_text(aes(label = term, size = beta_scaled)) +
+  facet_wrap(~reorder(facet_label, -wt), scales = "free_y", nrow = 4) +
+  theme_bw() +
+  theme(panel.grid = element_blank(),
+        axis.text = element_blank(), legend.position = "none",
+        strip.text = element_text(face="bold"),
+        axis.ticks = element_blank()) +
+  xlab("") + ylab("")
+p2
+ggsave("fig2.png", p2, width = 4, height = 5)
+
+
+# Mapping from method to topic...
+p3 <- document_lda_df %>%
+  rename(ut = document) %>%
+  left_join(select(abstracts, ut, search_term)) %>%
+  left_join(method_tally) %>%
+  group_by(topic, method, n) %>%
+  summarize(topic_method_wt = mean(gamma)) %>%
+  left_join(topic_wt_df) %>%
+  ggplot(aes(reorder(topic, -wt), reorder(method, n),
+             fill = topic_method_wt)) +
+  geom_tile() +
+  scale_fill_viridis_c(trans = "log10", "Weight") +
+  xlab("LDA Topic") +
+  ylab("") +
+  #theme(legend.position = "none") +
+  coord_equal()
+p3
+ggsave("fig3.png", p3, width = 6, height = 3)
+```

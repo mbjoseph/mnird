@@ -2,18 +2,17 @@
 % Please edit documentation in R/get_abstracts.R
 \name{get_abstracts}
 \alias{get_abstracts}
-\title{Get abstracts for papers in a .bib file}
+\title{Get abstracts for papers matching search terms}
 \usage{
-get_abstracts(bibfile)
+get_abstracts(terms)
 }
 \arguments{
-\item{bibfile}{Path to a .bib file (character vector)}
+\item{terms}{A character vector of search terms to use on Web of Science.}
 }
 \value{
-A data frame with one row per DOI, and a column containing abstract
-text (if available).
+A tibble with one row per publication matching search terms, with
+abstracts in one column.
 }
 \description{
-By default abstracts are acquired via crossref and the fulltext package
-under the hood (it may make sense to change this in the future...)
+Get abstracts for papers matching search terms
 }

@@ -7,14 +7,14 @@
 get_document_terms(abstracts)
 }
 \arguments{
-\item{abstracts}{A data.frame containing a column with DOIs, and another
-column with abstract text (as a character vector).}
+\item{abstracts}{A data.frame containing a column with unique identifiers in
+a column named "ut", and another called "word_stem".}
 }
 \value{
-An object of class \code{tm::DocumentTermMatrix}.
+An object of class \code{DocumentTermMatrix}.
 }
 \description{
-This function takes a tibble as input with a document identifier column, and
-another column containing document text, and outputs a document-term
-matrix that can be used for downstream analysis.
+This function takes a tibble as input with tokenized text, e.g., as
+created by the \code{clean_abstracts} function, and generates a document
+term matrix using word stems.
 }

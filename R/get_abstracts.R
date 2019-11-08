@@ -1,28 +1,22 @@
-#' Get abstracts for papers in a .bib file
+#' Get abstracts for papers matching search terms
 #'
-#' By default abstracts are acquired via crossref and the fulltext package
-#' under the hood (it may make sense to change this in the future...)
+#' @return A tibble with one row per publication matching search terms, with
+#' abstracts in one column.
 #'
-#' @return A data frame with one row per DOI, and a column containing abstract
-#' text (if available).
-#'
-#' @param bibfile Path to a .bib file (character vector)
+#' @param terms A character vector of search terms to use on Web of Science.
+#' @importFrom magrittr %>%
+#' @importFrom rlang .data
 #' @export
 #' @md
 
-get_abstracts <- function(bibfile) {
-  dois <- bib2df::bib2df(bibfile)$DOI
-
-  # Suppress false positive warnings about Unknown or uninitialized columns
-  suppressWarnings(
-    abstract_query <- fulltext::ft_abstract(dois, from = "crossref",
-                                            verbose = FALSE)
-    )
-
-  abstracts <- lapply(abstract_query$crossref, `[[`, "abstract")
-  clean_abstracts <- lapply(abstracts, function(x) {
-    ifelse(is.null(x), NA, x)
-  })
-
-  tibble::tibble(doi = dois, abstract = unlist(clean_abstracts))
+get_abstracts <- function(terms) {
+  sid <- rwos::wos_authenticate()
+  terms %>%
+    lapply(function(term) {
+      wosr::pull_wos(paste0("TS = (", term, ")"), sid = sid)
+    }) %>%
+    lapply(function(x) tibble::as_tibble(x$publication)) %>%
+    dplyr::bind_rows(.id = "term_idx") %>%
+    dplyr::mutate(term_idx = readr::parse_number(.data$term_idx),
+                  search_term = terms[.data$term_idx])
 }
