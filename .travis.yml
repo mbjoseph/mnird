@@ -12,6 +12,7 @@ addons:
   apt:
     packages:
     - libgsl-dev
+    - libmpfr-dev
 
 after_success:
   - Rscript -e 'covr::codecov()'
