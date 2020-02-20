@@ -27,3 +27,4 @@ rsconnect/
 .Rproj.user
 mnird.Rproj
 inst/doc
+fig*.png
