@@ -18,7 +18,8 @@ Suggests:
     tm,
     knitr,
     rmarkdown, 
-    ldatuning
+    ldatuning, 
+    lubridate
 Imports: 
     tibble,
     magrittr,

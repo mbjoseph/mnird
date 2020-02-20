@@ -12,9 +12,7 @@
 get_abstracts <- function(terms) {
   sid <- rwos::wos_authenticate()
   terms %>%
-    lapply(function(term) {
-      wosr::pull_wos(paste0("TS = (", term, ")"), sid = sid)
-    }) %>%
+    lapply(FUN = wosr::pull_wos, sid = sid) %>%
     lapply(function(x) tibble::as_tibble(x$publication)) %>%
     dplyr::bind_rows(.id = "term_idx") %>%
     dplyr::mutate(term_idx = readr::parse_number(.data$term_idx),

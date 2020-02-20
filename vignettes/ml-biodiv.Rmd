@@ -3,8 +3,10 @@ title: "ML in biodiversity topic modeling"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ML in biodiversity topic modeling}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -23,35 +25,23 @@ library(ldatuning)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(lubridate)
 
 # Generate search terms
 
 ml_terms <- c(
-  "random forest",
-  "regression tree",
-  "decision tree",
-  "gradient boosting",
-  "maximum entropy",
-  "machine learning",
-  "neural network",
-  "support vector machine",
-  "deep learning",
-  "computer vision",
-  "gaussian process",
-  "convolutional neural network",
-  "generative adversarial",
-  "supervised learning",
-  "unsupervised learning",
-  "deep feedforward",
-  "multilayer perceptron",
-  "autoencoder",
-  "representation learning",
-  "boltzmann machine",
-  "deep belief network"
+  "machine learning", 
+  "neural network", 
+  "deep learning", 
+  "computer vision", 
+  "supervised learning", 
+  "unsupervised learning"
 )
 
 ml_terms <- gsub(" ", "-", ml_terms)
-search_terms <- paste(ml_terms, "AND biodiversity")
+search_terms <- paste0("TS=(", 
+                       ml_terms,
+                       ") AND TS=(classif* OR identif* OR detect*) AND WC=(Ecology OR biodiversity conservation)")
 
 
 # Find the abstracts and clean them to prep for LDA
@@ -86,9 +76,15 @@ lda_df <- tidy(lda, matrix = "beta")
 # Visualizing the results of the search
 method_tally <- abstracts %>%
   count(search_term) %>%
-  mutate(method = trimws(gsub("AND biodiversity", "", search_term)),
+  separate(search_term, 
+           into = c("method", "wos_topic", "wos_category"), 
+           sep = " AND ", remove = FALSE) %>%
+  mutate(method = gsub("TS\\=\\(", "", method), 
+         method = gsub("\\)", "", method),
          method = gsub("-", " ", method),
-         method = reorder(tools::toTitleCase(method), n))
+         method = reorder(tools::toTitleCase(method), n)) %>%
+  select(-wos_topic, -wos_category)
+
 p1 <- method_tally %>%
   ggplot(aes(n, method)) +
   geom_point() +
