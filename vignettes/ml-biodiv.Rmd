@@ -3,8 +3,10 @@ title: "ML in biodiversity topic modeling"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{ML in biodiversity topic modeling}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -20,9 +22,11 @@ library(topicmodels)
 library(mnird)
 library(tidytext)
 library(ldatuning)
+library(lubridate)
 library(dplyr)
 library(ggplot2)
 library(tidyr)
+library(forcats)
 
 # Generate search terms
 
@@ -47,12 +51,11 @@ ml_terms <- c(
   "autoencoder",
   "representation learning",
   "boltzmann machine",
-  "deep belief network"
+  "deep belief network",
+  "linear discriminant"
 )
-
 ml_terms <- gsub(" ", "-", ml_terms)
-search_terms <- paste(ml_terms, "AND biodiversity")
-
+search_terms <- paste(ml_terms, "AND (classif* OR identif* OR detect*)")
 
 # Find the abstracts and clean them to prep for LDA
 abstracts <- get_abstracts(search_terms)
@@ -88,9 +91,10 @@ method_tally <- abstracts %>%
   count(search_term) %>%
   mutate(method = trimws(gsub("AND biodiversity", "", search_term)),
          method = gsub("-", " ", method),
-         method = reorder(tools::toTitleCase(method), n))
+         method = reorder(tools::toTitleCase(method), n)) %>%
+  separate(method, into = c("method", "blah"), sep = " and ")
 p1 <- method_tally %>%
-  ggplot(aes(n, method)) +
+  ggplot(aes(n, fct_reorder(method, n))) +
   geom_point() +
   geom_segment(aes(x = 0, xend = n, yend = method)) +
   ylab("") +

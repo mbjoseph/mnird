@@ -27,3 +27,6 @@ rsconnect/
 .Rproj.user
 mnird.Rproj
 inst/doc
+fig1.png
+fig2.png
+*_wos-abstracts.csv

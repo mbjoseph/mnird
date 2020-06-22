@@ -13,7 +13,12 @@ get_abstracts <- function(terms) {
   sid <- rwos::wos_authenticate()
   terms %>%
     lapply(function(term) {
-      wosr::pull_wos(paste0("TS = (", term, ")"), sid = sid)
+      wosr::pull_wos(
+        paste0(
+          "TS = (",
+          term,
+          ") AND (WC=ecology OR WC=biodiversity conservation)"),
+        sid = sid)
     }) %>%
     lapply(function(x) tibble::as_tibble(x$publication)) %>%
     dplyr::bind_rows(.id = "term_idx") %>%
