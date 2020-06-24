@@ -5,3 +5,7 @@ scratch.R
 ^\.travis\.yml$
 ^codecov\.yml$
 ^README\.Rmd$
+fig1.png
+fig2.png
+fig3.png
+abstract-data.csv

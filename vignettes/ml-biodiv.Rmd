@@ -59,6 +59,8 @@ search_terms <- paste(ml_terms, "AND (classif* OR identif* OR detect*)")
 
 # Find the abstracts and clean them to prep for LDA
 abstracts <- get_abstracts(search_terms)
+write_csv(abstracts, "abstract-data.csv")
+
 c_abstracts <- clean_abstracts(abstracts)
 
 docterms <- get_document_terms(c_abstracts)
@@ -149,7 +151,7 @@ p2 <- top_terms %>%
         axis.ticks = element_blank()) +
   xlab("") + ylab("")
 p2
-ggsave("fig2.png", p2, width = 4, height = 5)
+ggsave("fig2.png", p2, width = 6, height = 5)
 
 
 # Mapping from method to topic...
@@ -167,7 +169,8 @@ p3 <- document_lda_df %>%
   xlab("LDA Topic") +
   ylab("") +
   #theme(legend.position = "none") +
-  coord_equal()
+  coord_equal() + 
+  theme(axis.text.x = element_text(angle = 90))
 p3
-ggsave("fig3.png", p3, width = 6, height = 3)
+ggsave("fig3.png", p3, width = 8, height = 4)
 ```
